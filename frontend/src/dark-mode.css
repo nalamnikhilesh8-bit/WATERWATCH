@@ -1,0 +1,53 @@
+@media (prefers-color-scheme: dark) {
+  :root { color-scheme: dark; color: #dce8e2; background: #111f1f; --line: #2b4140; --canvas: #111f1f; --white: #1a2a2a; }
+  body { color: #dce8e2; background: #111f1f; }
+  .topbar { background: rgba(20, 36, 36, .96); border-color: #2b4140; }
+  .brand, .page-header h1, .hero-copy h1, .section-heading h2, .chart-title h3, .map-panel-heading h3, .home-cta h2 { color: #dce9e3; }
+  .main-nav a, .role-chip, .hero-copy > p, .section-heading > p, .page-header p { color: #9fb2aa; }
+  .main-nav a:hover, .main-nav a.active { color: #9ed0bd; }
+  .trust-strip, .how-section { background: #172827; border-color: #2b4140; }
+  .trust-inner, .how-grid p { color: #a1b3ab; }
+  .trust-inner > span:not(.trust-label) { border-color: #334845; }
+  .kpi-card, .panel, .how-grid article, .auth-main, .auth-layout, .auth-card, .report-record, .modal-card, .triage-panel, .work-card, .empty-state, .loading-card { background: #1a2b2b; border-color: #304442; color: #d7e3dc; }
+  .analytics-toolbar { background: #1a2b2b; border-color: #304442; }
+  .analytics-filters label, .map-heading-actions label, .admin-filters label { color: #a3b3ad; }
+  .analytics-filters select, .map-heading-actions select, .admin-filters select { background: #152525; border-color: #354a48; color: #d8e5de; }
+  .demo-data-banner { background: #382f21; border-color: #5b4b31; color: #d3b477; }
+  .map-empty { background: linear-gradient(145deg,#1d3330,#1a2b2b); }
+  .map-empty strong { color: #c2d5ca; }
+  .chart-empty, .analytics-method-note { color: #91a39b; }
+  .legend-list button { color: #a3b3ad; }
+  .legend-list button:hover, .legend-list button.legend-selected { background: #263b37; color: #d1e0d6; }
+  .kpi-card strong, .record-top h2, .work-card h2, .modal-card h2, .empty-state h2, .auth-card h2 { color: #dbe9e2; }
+  .kpi-card > span, .chart-total, .map-panel-heading p, .record-description, .work-description, .modal-copy, .empty-state p, .muted { color: #a3b3ad; }
+  .chart-caption, .timeline, .record-top, .work-meta { border-color: #304341; }
+  .chart-caption, .legend-list span, .timeline-event p, .timeline-event time { color: #9aada5; }
+  .triage-table th, .search-box input, .assign-control select { background: #203433; border-color: #354c49; color: #c3d2ca; }
+  .triage-table td { border-color: #2a403d; color: #b1c1b9; }
+  .table-report-title, .timeline-event strong, .work-resident-note strong { color: #c1d5ca; }
+  input, textarea, select { background-color: #152525; border-color: #354a48; color: #d8e5de; }
+  input::placeholder, textarea::placeholder { color: #738981; }
+  .form-panel label, .photo-panel h2, .panel-heading h2, .auth-card label { color: #c0d2c8; }
+  .upload-zone, .work-resident-note, .coordinate-readout, .search-box input, .match-row { background: #203433; border-color: #38504c; }
+  .upload-zone strong, .match-row strong { color: #c7d8cf; }
+  .privacy-card, .ai-ready, .success-banner, .success-callout { background: #20372f; border-color: #355447; }
+  .privacy-card strong, .success-banner strong { color: #b9d4c5; }
+  .privacy-card p, .success-banner p { color: #9bb9a8; }
+  .status-pill, .category-tag, .upvote-tag { filter: brightness(.78) saturate(.82); }
+  .auth-aside { background: #164447; }
+  .auth-switch { border-color: #344744; color: #a3b4ad; }
+  .community-report-feed { background: #1a2b2b; border-color: #304442; }
+  .feed-row { border-color: #304442; }
+  .feed-row strong { color: #c9d8d0; }
+  .training-consent, .evidence-card { background: #1a2b2b; border-color: #304442; }
+  .training-consent strong, .consent-toggle { color: #b7d2c7; }
+  .training-consent small, .image-review-control > small { color: #9aada5; }
+  .image-review-control { background: #203433; }
+  .model-status-panel { background: #1a2b2b; border-color: #304442; }
+  .model-status-main h2 { color: #dbe9e2; }
+  .model-status-main p, .model-status-foot { color: #9aada5; }
+  .model-class-counts span { color: #a7bab2; }
+  .model-status-foot code { color: #bad9ca; background: #203433; }
+  .site-footer { background: #0f292b; }
+  .hero-art { background: #d5e8e0; }
+}

@@ -1,0 +1,30 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    environment:
+      DEBUG: "True"
+      DJANGO_SECRET_KEY: local-waterwatch-development-key
+      ALLOWED_HOSTS: "*"
+      DB_ENGINE: sqlite
+      DB_SQLITE_NAME: /data/db.sqlite3
+      CORS_ALLOW_ALL_ORIGINS: "True"
+    ports:
+      - "8000:8000"
+    volumes:
+      - waterwatch-data:/data
+      - waterwatch-media:/app/media
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  waterwatch-data:
+  waterwatch-media:

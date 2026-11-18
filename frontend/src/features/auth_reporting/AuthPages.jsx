@@ -1,0 +1,23 @@
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
+import { apiErrorMessage } from '../../api/errorMessage'
+
+export function LoginPage() {
+  const { signIn } = useAuth(); const navigate = useNavigate()
+  const [form, setForm] = useState({ email: '', password: '' }); const [error, setError] = useState(''); const [busy, setBusy] = useState(false)
+  const submit = async (event) => {
+    event.preventDefault(); setBusy(true); setError('')
+    try { const user = await signIn(form); navigate(user.role === 'ADMIN' ? '/admin' : user.role === 'MAINTENANCE' ? '/maintenance' : '/') }
+    catch (e) { setError(e.response?.data?.non_field_errors?.[0] || e.response?.data?.detail || 'That email and password did not match.') }
+    finally { setBusy(false) }
+  }
+  return <main className="auth-layout"><div className="auth-aside"><div className="auth-aside-inner"><span className="eyebrow light">GOOD WATER STARTS HERE</span><h1>Small reports.<br />Lasting repairs.</h1><p>A shared place to notice leaks, support neighbors, and follow the work through to a verified fix.</p><div className="auth-watermark">≈</div><span className="aside-note">A little more clarity, block by block.</span></div></div><div className="auth-main"><form className="auth-card" onSubmit={submit}><div className="eyebrow">WELCOME BACK</div><h2>Sign in to WaterWatch</h2><p className="muted">Pick up where your community left off.</p><label>Email address<input required type="email" autoComplete="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" /></label><label>Password<input required type="password" autoComplete="current-password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="Enter your password" /></label>{error && <div className="inline-error">{error}</div>}<button disabled={busy} className="button button-dark button-full">{busy ? 'Signing in…' : 'Sign in'} <span>→</span></button><div className="auth-switch">New to WaterWatch? <Link to="/register">Create an account</Link></div></form></div></main>
+}
+
+export function RegisterPage() {
+  const { signUp } = useAuth(); const navigate = useNavigate()
+  const [form, setForm] = useState({ first_name: '', last_name: '', username: '', email: '', locality: '', password: '' }); const [error, setError] = useState(''); const [busy, setBusy] = useState(false)
+  const submit = async (event) => { event.preventDefault(); setBusy(true); setError(''); try { await signUp(form); navigate('/') } catch (e) { setError(apiErrorMessage(e, { fallback: 'Could not create the account. Please check your details.' })) } finally { setBusy(false) } }
+  return <main className="auth-layout"><div className="auth-aside"><div className="auth-aside-inner"><span className="eyebrow light">NEIGHBORS LOOKING OUT</span><h1>Notice it.<br />Share it.<br />Fix it.</h1><p>Join your community in making water issues visible and repairs easier to coordinate.</p><div className="auth-watermark">≈</div><span className="aside-note">Start with what you can see.</span></div></div><div className="auth-main"><form className="auth-card" onSubmit={submit}><div className="eyebrow">CREATE YOUR ACCOUNT</div><h2>Join WaterWatch</h2><p className="muted">A few details to get your neighborhood connected.</p><div className="form-grid two"><label>First name<input required value={form.first_name} onChange={(e) => setForm({ ...form, first_name: e.target.value })} /></label><label>Last name<input required value={form.last_name} onChange={(e) => setForm({ ...form, last_name: e.target.value })} /></label></div><label>Username<input required value={form.username} onChange={(e) => setForm({ ...form, username: e.target.value })} /></label><label>Email address<input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></label><label>Neighborhood / locality<input value={form.locality} onChange={(e) => setForm({ ...form, locality: e.target.value })} placeholder="e.g. Central Ward" /></label><label>Password<input required type="password" minLength="8" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="At least 8 characters" /></label>{error && <div className="inline-error">{error}</div>}<button disabled={busy} className="button button-dark button-full">{busy ? 'Creating account…' : 'Create resident account'} <span>→</span></button><div className="auth-switch">Already joined? <Link to="/login">Sign in</Link></div></form></div></main>
+}
