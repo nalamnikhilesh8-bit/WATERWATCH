@@ -7,7 +7,7 @@ export default function Navbar() {
   const role = user?.role
   const handleSignOut = () => { signOut(); navigate('/') }
   return <header className="topbar"><div className="topbar-inner">
-    <Link to="/" className="brand"><span className="brand-mark">≈</span><span>waterwatch</span><span className="brand-dot" /></Link>
+    <Link to="/" className="brand"><span className="brand-mark" aria-hidden="true">≈</span><span>waterwatch</span><span className="brand-dot" /></Link>
     <nav className="main-nav" aria-label="Main navigation">
       <NavLink to="/" end>Community</NavLink>
       {user?.role === 'RESIDENT' && <><NavLink to="/report">Report a leak</NavLink><NavLink to="/my-reports">My reports</NavLink></>}
