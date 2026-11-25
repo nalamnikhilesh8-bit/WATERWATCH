@@ -11,18 +11,6 @@ WaterWatch is a community water-leak reporting and repair coordination platform.
 
 ## Local setup
 
-### Run the same development environment on any device
-
-Install Docker Desktop (Windows/macOS) or Docker Engine with the Compose plugin (Linux), then run from the repository root:
-
-```sh
-docker compose up --build
-```
-
-Open `http://localhost:5173` on the computer running Docker. To open the app on another device on the same network, use `http://<host-computer-LAN-IP>:5173`; the app automatically sends API requests to that same host on port 8000. SQLite data and uploaded photos persist in Docker volumes. Stop with `Ctrl+C`; use `docker compose down` to stop containers while preserving data.
-
-The Compose environment is for local development and demo use. Do not expose it to the public internet; use the production notes below for deployment.
-
 ### Backend
 
 1. Create and activate a Python 3.11+ virtual environment in `backend/`.
