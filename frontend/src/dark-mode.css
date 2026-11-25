@@ -10,6 +10,11 @@
   .trust-inner > span:not(.trust-label) { border-color: #334845; }
   .kpi-card, .panel, .how-grid article, .auth-main, .auth-layout, .auth-card, .report-record, .modal-card, .triage-panel, .work-card, .empty-state, .loading-card { background: #1a2b2b; border-color: #304442; color: #d7e3dc; }
   .analytics-toolbar { background: #1a2b2b; border-color: #304442; }
+  .operations-overview-heading h2 { color: #dce9e3; }
+  .operations-summary-value strong { color: #dbe9e2; }
+  .operations-live-status small, .operations-summary-label, .operations-summary-value span, .operations-summary-card > small { color: #a3b3ad; }
+  .operations-live-status.is-stale { color: #d3b477; }
+  .completion-meter { background: #304442; }
   .analytics-filters label, .map-heading-actions label, .admin-filters label { color: #a3b3ad; }
   .analytics-filters select, .map-heading-actions select, .admin-filters select { background: #152525; border-color: #354a48; color: #d8e5de; }
   .demo-data-banner { background: #382f21; border-color: #5b4b31; color: #d3b477; }
