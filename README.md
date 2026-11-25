@@ -11,6 +11,18 @@ WaterWatch is a community water-leak reporting and repair coordination platform.
 
 ## Local setup
 
+### Run with Docker Compose
+
+Install Docker Desktop (Windows/macOS) or Docker Engine with the Compose plugin (Linux), then run from the repository root:
+
+```sh
+docker compose up --build
+```
+
+Open the frontend at `http://localhost:5173` and the API at `http://localhost:8000/api`. The Compose setup uses SQLite and persists database data and uploaded photos in Docker volumes. Stop the containers with `Ctrl+C`; run `docker compose down` to stop them while keeping the data.
+
+This configuration is for local development and demos. Do not expose it to the public internet.
+
 ### Backend
 
 1. Create and activate a Python 3.11+ virtual environment in `backend/`.
