@@ -50,6 +50,10 @@ Full endpoint paths, authentication rules, request payloads, and response exampl
 
 For the full resident-to-repair flow, role demo accounts, and a step-by-step walkthrough, see [docs/PROJECT_WALKTHROUGH.md](docs/PROJECT_WALKTHROUGH.md).
 
+### Postman API tests
+
+Start the backend, run migrations, and seed the demo data. Import [postman/WaterWatch API.postman_collection.json](postman/WaterWatch%20API.postman_collection.json) into Postman, then run the collection in order. It checks API/database readiness, anonymous access control, resident login/profile, report listing, duplicate checks, and public analytics. The requests are read-only; the collection uses the documented local demo resident account.
+
 ## Collaboration workflow
 
 Use `main` for reviewed releases, `develop` for integrated work, and short-lived `feat/<slice>-<description>` branches. Open pull requests into `develop`; merge `develop` to `main` for releases. Keep migrations owned by their vertical slice and coordinate shared model changes before editing.

@@ -1,0 +1,322 @@
+{
+  "info": {
+    "_postman_id": "d56f136d-188b-490e-bbfb-60516418a31f",
+    "name": "WaterWatch API tests",
+    "description": "Read-only API smoke tests for a locally running WaterWatch backend. Run the collection in order after migrating and seeding the database. The login request uses the documented development resident account. No reports or other records are created or changed.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:8000/api",
+      "type": "string"
+    },
+    {
+      "key": "residentEmail",
+      "value": "resident1@waterwatch.local",
+      "type": "string"
+    },
+    {
+      "key": "residentPassword",
+      "value": "WaterWatch@123",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health check",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "noauth"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/health/",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "health",
+            ""
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Health endpoint returns HTTP 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('API and database are ready', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body.status).to.eql('ok');",
+              "  pm.expect(body.database).to.eql('ok');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Protected reports reject anonymous requests",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "noauth"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/reports/",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reports",
+            ""
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Reports endpoint requires authentication', function () {",
+              "  pm.response.to.have.status(401);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Resident login",
+      "request": {
+        "method": "POST",
+        "auth": {
+          "type": "noauth"
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{residentEmail}}\",\n  \"password\": \"{{residentPassword}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/login/",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "login",
+            ""
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Resident login returns JWTs and a resident profile', function () {",
+              "  pm.response.to.have.status(200);",
+              "  const body = pm.response.json();",
+              "  pm.expect(body.access).to.be.a('string').and.not.empty;",
+              "  pm.expect(body.refresh).to.be.a('string').and.not.empty;",
+              "  pm.expect(body.user.email).to.eql(pm.collectionVariables.get('residentEmail'));",
+              "  pm.expect(body.user.role).to.eql('RESIDENT');",
+              "  pm.collectionVariables.set('accessToken', body.access);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Current resident profile",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/auth/me/",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "me",
+            ""
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Authenticated profile matches the resident account', function () {",
+              "  pm.response.to.have.status(200);",
+              "  const body = pm.response.json();",
+              "  pm.expect(body.email).to.eql(pm.collectionVariables.get('residentEmail'));",
+              "  pm.expect(body.role).to.eql('RESIDENT');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "List resident reports",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/reports/",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reports",
+            ""
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Reports endpoint returns a paginated list', function () {",
+              "  pm.response.to.have.status(200);",
+              "  const body = pm.response.json();",
+              "  pm.expect(body.count).to.be.a('number');",
+              "  pm.expect(body.results).to.be.an('array');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Check nearby duplicates",
+      "request": {
+        "method": "POST",
+        "auth": {
+          "type": "noauth"
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"latitude\": 17.385,\n  \"longitude\": 78.4867\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/reports/check-duplicates/",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reports",
+            "check-duplicates",
+            ""
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Duplicate check returns the documented search window', function () {",
+              "  pm.response.to.have.status(200);",
+              "  const body = pm.response.json();",
+              "  pm.expect(body.matches).to.be.an('array');",
+              "  pm.expect(body.window_hours).to.eql(48);",
+              "  pm.expect(body.radius_meters).to.eql(100);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Live community analytics",
+      "request": {
+        "method": "GET",
+        "auth": {
+          "type": "noauth"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/operations/analytics/",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "operations",
+            "analytics",
+            ""
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Public analytics returns live metrics', function () {",
+              "  pm.response.to.have.status(200);",
+              "  const body = pm.response.json();",
+              "  pm.expect(body.data_source).to.eql('LIVE');",
+              "  pm.expect(body.counts_by_status).to.be.an('object');",
+              "  pm.expect(body.counts_by_category).to.be.an('object');",
+              "  pm.expect(body.map_reports).to.be.an('array');",
+              "  pm.expect(body.kpis).to.be.an('object');",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
